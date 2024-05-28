@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa con Polígono</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; }
+        .filter-btn { margin: 10px; }
+        body { font-family: Arial, sans-serif; }
+        h1 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Osvaldo Santistevan</h1>
+    <div id="map"></div>
+    <button class="filter-btn" onclick="showPolygon('Polígono 1')">Mostrar Polígono 1</button>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([-17.79, -63.22], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var polygons = [];
+
+        function addPolygon(coordinates, name) {
+            var polygon = L.polygon(coordinates, { color: 'blue' }).addTo(map);
+            polygon.bindPopup(name);
+            polygon.on('click', function() {
+                map.fitBounds(polygon.getBounds());
+            });
+            polygons.push({ name: name, layer: polygon });
+        }
+
+        // Coordenadas del polígono
+        var polygon1 = [
+            [-17.8132532, -63.2306989],
+            [-17.8219149, -63.2214292],
+            [-17.8033653, -63.1993707],
+            [-17.7974813, -63.1928476],
+            [-17.7944575, -63.1937917],
+            [-17.7844052, -63.19465],
+            [-17.7761503, -63.1924184],
+            [-17.7727993, -63.1903585],
+            [-17.7709194, -63.1840928],
+            [-17.7706741, -63.1819471],
+            [-17.7705107, -63.1782564],
+            [-17.7599665, -63.1742223],
+            [-17.755716, -63.1716474],
+            [-17.7510566, -63.1686433],
+            [-17.7434542, -63.1656393],
+            [-17.7408383, -63.1629785],
+            [-17.7375683, -63.1610044],
+            [-17.7352792, -63.1600603],
+            [-17.7276762, -63.1564554],
+            [-17.7248965, -63.1630643],
+            [-17.7219532, -63.1717332],
+            [-17.7192552, -63.1800588],
+            [-17.7190917, -63.1836637],
+            [-17.7186012, -63.185552],
+            [-17.7188464, -63.1868394],
+            [-17.7183559, -63.1886419],
+            [-17.7234249, -63.1909593],
+            [-17.7276762, -63.1922468],
+            [-17.7334807, -63.1925901],
+            [-17.7499122, -63.1876977],
+            [-17.755389, -63.2010873],
+            [-17.7622552, -63.2037481],
+            [-17.7698568, -63.2097562],
+            [-17.7770494, -63.2172235],
+            [-17.7867753, -63.2173093],
+            [-17.7971544, -63.2170518],
+            [-17.8013223, -63.226579],
+            [-17.8103931, -63.2292398],
+            [-17.8132532, -63.2306989]
+        ];
+
+        // Añadir el polígono al mapa
+        addPolygon(polygon1, 'Polígono 1');
+
+        function showPolygon(name) {
+            polygons.forEach(p => {
+                if (p.name === name) {
+                    map.addLayer(p.layer);
+                    map.fitBounds(p.layer.getBounds());
+                } else {
+                    map.removeLayer(p.layer);
+                }
+            });
+        }
+
+        showPolygon('Polígono 1'); // Mostrar el polígono al inicio
+    </script>
+</body>
+</html>
